@@ -1,10 +1,20 @@
 import axios from 'axios';
-import React, { useState, useEffect, useRef } from 'react';
+import  { useState, useEffect, useRef } from 'react';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {useNavigate} from 'react-router-dom'
+
 
 
 const SwiperCard = () => {
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   const [cards, setCards] = useState([
     {
       id: 1,
@@ -64,7 +74,8 @@ const SwiperCard = () => {
     },
   ]);
   const [cartList,setCartList]=useState([])
-  const [refresh,setRefresh]= useState(true)
+  const navigate = useNavigate()
+
   
 
 
@@ -117,7 +128,7 @@ const SwiperCard = () => {
 
     
     
-  }, [refresh]);
+  }, []);
 
 
   const fetchedList = async()=>{
@@ -164,10 +175,7 @@ const SwiperCard = () => {
             title
         })
         if (response.status==200){
-            // console.log('successfully incremented')
-            // const fetchedList = response.data.data
-            // setCartList([...fetchedList])
-            // setRefresh(!refresh)
+           
             fetchedList()
         }
 
@@ -186,10 +194,7 @@ const SwiperCard = () => {
             title
         })
         if (response.status==200){
-            // console.log('successfully incremented')
-            // const fetchedList = response.data.data
-            // setCartList([...cartList,...fetchedList])
-            // window.location.reload()
+            
             fetchedList();
         }
 
@@ -213,12 +218,13 @@ const SwiperCard = () => {
       }}
     >
         
-      <div className="flex snap-x snap-mandatory gap-6" style={{ width: 'max-content'}}>
+      <div className="flex snap-x snap-mandatory gap-6" style={{ width: 'max-content'}} 
+      >
         
         {cards.map((card) => (
           <div key={card.id} className="flex-none w-64 snap-center">
             <div className="bg-white border-1 border border-gray-200 rounded-lg overflow-hidden mb-4">
-              <img src={card.image} alt={card.title} className="w-full h-40 object-cover" />
+              <img src={card.image} alt={card.title} className="w-full h-40 object-cover" onClick={()=>{navigate('/product')}}/>
               <div className="p-4">
                 <h3 className="text-lg leading-6 font-bold text-gray-900">{card.title}</h3>
                 <p className="text-gray-600 mt-2 text-sm">{card.description}</p>

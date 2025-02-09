@@ -548,7 +548,7 @@ app.get('/getuserdetailes',async(req,res)=>{
 })
 
 app.post('/addressPost',async(req,res)=>{
-    const {firstName,phoneNo,email,area,city,state,zipCode}=req.body
+    const {fullName,phoneNo,email,area,city,state,zipCode}=req.body
     if (!email){
        return res.status(400)
     }
@@ -559,7 +559,7 @@ app.post('/addressPost',async(req,res)=>{
         email,
         array:[
           {
-            fullName:firstName,
+            fullName,
             phoneNo,
             area,
             city,
@@ -575,7 +575,7 @@ app.post('/addressPost',async(req,res)=>{
     else{
       
         user.array.push({
-          firstName,
+          fullName,
           phoneNo,
           area,
           city,
@@ -599,6 +599,20 @@ app.get('/getAddress',async(req,res)=>{
   res.status(200).json(user.array)
 })
 
+
+app.post('/deleteItem',async(req,res)=>{
+  const {email,title}=req.body
+  console.log(email)
+  const user = await Cart.findOne({email})
+  if(!user){
+    res.status(400)
+  }
+  
+  console.log(user)
+  user.array = user.array.filter(eachItem=>eachItem.title!==title)
+  await user.save()
+  res.status(200)
+})
 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id); 
@@ -687,10 +701,6 @@ io.on("connection", (socket) => {
     );
   });
 });
-
-
-
-
 
 app.listen(3000, () => {
    console.log("Server is running on port 3000");

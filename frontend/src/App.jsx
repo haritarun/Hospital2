@@ -22,6 +22,7 @@ import Homepage from './HomePage/HomePage';
 import Shop from './Shop/Shop';
 import Order from './Order/Order';
 import FinalOrder from './FinalOrder/FinalOrder';
+import Product from './Product/Product'
 
 function App() {
   return (  
@@ -48,6 +49,7 @@ function App() {
         <Route exact path="/shop" element={<Shop />} />
         <Route exact path="/order" element={<Order />} />
         <Route exact path="/finalorder" element={<FinalOrder />} />
+        <Route exact path="/product" element={<Product /> } />
       </Routes>
      </BrowserRouter>
   );

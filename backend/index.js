@@ -4,15 +4,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
-const User = require('./models/user');
+const User = require('./models/User');
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const http = require("http");
 const { Server } = require("socket.io");
-const Chat = require("./models/chat");
+const Chat = require("./models/Chat");
 const Admin = require("./models/Admin");
-const Tablets=require("./models/tablets");
-const Tablet = require('./models/tablets');
+const Tablets=require("./models/Tablets");
 const Cart = require('./models/Cart')
 const Address = require('./models/Address')
 require("dotenv").config()

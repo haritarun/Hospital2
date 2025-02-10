@@ -3,6 +3,7 @@ import logo from '../assets/img/logo.png';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'; 
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -36,7 +37,7 @@ const Login = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/login', {
+            const response = await axios.post(`${DOMAIN}/login`, {
                 email: email,
                 password: password,
             });

@@ -4,26 +4,28 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'; 
 
+const DOMAIN = import.meta.env.VITE_DOMAIN
+
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [popupMessage, setPopupMessage] = useState(''); // Popup message state
-    const [showPopup, setShowPopup] = useState(false);    // Popup visibility state
+    const [popupMessage, setPopupMessage] = useState(''); 
+    const [showPopup, setShowPopup] = useState(false);    
     const [passwordVisible, setPasswordVisible] = useState(false); 
     const navigate = useNavigate();
 
-    // Show popup error message
+    
     const showErrorPopup = (message) => {
         setPopupMessage(message);
         setShowPopup(true);
-        setTimeout(() => setShowPopup(false), 3000); // Hide after 3 seconds
+        setTimeout(() => setShowPopup(false), 3000); 
     };
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    // Handle login logic
+    
     const handleLogin = async () => {
         if (!email || !password) {
             if (!email) {
@@ -36,13 +38,13 @@ const AdminLogin = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/admin_login', {
+            const response = await axios.post(`${DOMAIN}/admin_login`, {
                 email: email,
                 password: password,
             });
             
             
-            localStorage.setItem('email', email);  // Store token in local storage for future use
+            localStorage.setItem('email', email);  
             if (response.status === 200) {
                 navigate('/dashboard');
             }
@@ -61,7 +63,7 @@ const AdminLogin = () => {
         }
     };
 
-    // Handle form submit
+  
     const handleSubmit = (e) => {
         e.preventDefault();
         handleLogin();

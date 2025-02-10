@@ -5,6 +5,8 @@ import "reactjs-popup/dist/index.css";
 import {Link} from 'react-router-dom'
 import { motion } from "framer-motion";
 
+const DOMAIN = import.meta.env.VITE_DOMAIN
+
 const OrderSummery = () => {
     const [data,setData]=useState([])
     const [userData,setuserData]=useState({})
@@ -31,7 +33,7 @@ const OrderSummery = () => {
         const email=localStorage.getItem("email")
         
         try{
-            const response=await axios.get(`http://localhost:3000/getDetailes?email=${email}`)
+            const response=await axios.get(`${DOMAIN}/getDetailes?email=${email}`)
             setData(response.data)   
             console.log(data)         
         }catch(e){
@@ -42,7 +44,7 @@ const OrderSummery = () => {
     const fetcheUserdata=async()=>{
         const email=localStorage.getItem("email")
         try{
-            const response=await axios.get(`http://localhost:3000/getuserdetailes?email=${email}`)
+            const response=await axios.get(`${DOMAIN}/getuserdetailes?email=${email}`)
             if (response.status==200){
                 setuserData(response.data)
                 
@@ -57,7 +59,7 @@ const OrderSummery = () => {
         const email=localStorage.getItem('email')
         console.log('enter into getIncrement')
         try{
-            const response=await axios.put('http://localhost:3000/getDecrement',{
+            const response=await axios.put(`${DOMAIN}/getDecrement`,{
                 email,
                 title
             })
@@ -76,7 +78,7 @@ const OrderSummery = () => {
     const getIncrement=async(title) => {
         const email=localStorage.getItem('email')
         try{
-            const response=await axios.put('http://localhost:3000/getIncrement',{
+            const response=await axios.put(`${DOMAIN}/getIncrement `,{
                 email,
                 title
             })
@@ -94,7 +96,7 @@ const OrderSummery = () => {
         setSaved(true);
         setTimeout(() => setSaved(false), 2000);
         try{
-            const response = await axios.post('http://localhost:3000/addressPost',{
+            const response = await axios.post(`${DOMAIN}/addressPost`,{
                 firstName,
                 phoneNo,
                 email,

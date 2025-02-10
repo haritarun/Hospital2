@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Header from '../HomePage/Header'
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 
 const Profile = () => {
@@ -27,7 +28,7 @@ const Profile = () => {
           return;
         }
 
-        const response = await axios.get(`http://localhost:3000/details?email=${email}`);
+        const response = await axios.get(`${DOMAIN}/details?email=${email}`);
         if (response.status === 200) {
           const user = response.data;
           setDetails(user);

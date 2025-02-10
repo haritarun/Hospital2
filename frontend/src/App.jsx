@@ -8,7 +8,6 @@ import Navbar from './components/Navbar';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminChat from './components/AdminChat';
 import ChatList from './components/ChatList';
-import UserChat from './components/UserChat';
 import ChatPage from './pages/ChatPage';
 import Profile from './pages/Profile';
 import MailOTP from './pages/MailOTP';

@@ -3,7 +3,7 @@ import  { useState, useEffect, useRef } from 'react';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useNavigate} from 'react-router-dom'
-
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 
 const SwiperCard = () => {
@@ -136,7 +136,7 @@ const SwiperCard = () => {
     const email=localStorage.getItem('email')
 
     try{
-        const response = await axios.get(`http://localhost:3000/getcartdetailes?email=${email}`)
+        const response = await axios.get(`${DOMAIN}/getcartdetailes?email=${email}`)
         if (response.status===200){
             const fetchedList = response.data.data
             setCartList([...fetchedList])
@@ -152,7 +152,7 @@ const SwiperCard = () => {
     console.log('enter into getBooked')
     const email=localStorage.getItem('email')
     try{
-       const response= await axios.post('http://localhost:3000/addtocart',{
+       const response= await axios.post(`${DOMAIN}/addtocart`,{
         email,
         title,
         price,
@@ -171,7 +171,7 @@ const SwiperCard = () => {
     const email=localStorage.getItem('email')
     
     try{
-        const response=await axios.put('http://localhost:3000/getIncrement',{
+        const response=await axios.put(`${DOMAIN}/getIncrement`,{
             email,
             title
         })
@@ -189,7 +189,7 @@ const SwiperCard = () => {
     const email=localStorage.getItem('email')
     console.log('enter into getIncrement')
     try{
-        const response=await axios.put('http://localhost:3000/getDecrement',{
+        const response=await axios.put(`${DOMAIN}/getDecrement`,{
             email,
             title
         })

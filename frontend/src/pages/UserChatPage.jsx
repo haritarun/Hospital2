@@ -6,7 +6,7 @@ import Picker from 'emoji-picker-react';
 import Header from '../HomePage/Header'
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+const DOMAIN = import.meta.env.VITE_SOCKET_DOMAIN
 const socket = socketIOClient("http://localhost:3002");
 
 const UserChatPage = () => {
@@ -39,7 +39,7 @@ const UserChatPage = () => {
           return;
         }
 
-        const response = await axios.get(`http://localhost:3000/details?email=${email}`);
+        const response = await axios.get(`${DOMAIN}/details?email=${email}`);
         if (response.status === 200) {
           const user = response.data;
           setDetails(user);

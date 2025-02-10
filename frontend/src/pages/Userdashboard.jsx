@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaPaperPlane, FaSmile, FaPaperclip } from "react-icons/fa"; // FaSmile for emojis, FaPaperclip for file upload
 import Picker from "emoji-picker-react"; // Importing an emoji picker package
-
+const DOMAIN = import.meta.env.VITE_SOCKET_DOMAIN
 const socket = socketIOClient("http://localhost:3002");
 
 const UserChatPage = () => {
@@ -34,7 +34,7 @@ const UserChatPage = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/details?email=${email}`
+          `${DOMAIN}/details?email=${email}`
         );
         if (response.status === 200) {
           const user = response.data;

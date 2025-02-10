@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 const Myorders = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,7 +24,7 @@ const Myorders = () => {
           return;
         }
 
-        const response = await axios.get(`http://localhost:3000/details?email=${email}`);
+        const response = await axios.get(`${DOMAIN}/details?email=${email}`);
         if (response.status === 200) {
           const user = response.data;
           setFirstName(user.firstName);

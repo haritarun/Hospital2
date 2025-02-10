@@ -6,6 +6,7 @@ import axios from "axios";
 import moment from 'moment';
 import { motion } from "framer-motion";
 
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 const AdminCategory = () => {
     const [tableData, setTableData] = useState([]);
@@ -30,7 +31,7 @@ const AdminCategory = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/getdata');
+                const response = await axios.get(`${DOMAIN}/getdata`);
                 if (response.status === 200) {
                     const fetchedData = response.data.map(eachItem => ({
                         ...eachItem,
@@ -72,7 +73,7 @@ const AdminCategory = () => {
             try {
                 if (editingIndex !== null) {
                     try {
-                        const response = await axios.put('http://localhost:3000/updatetablet', {
+                        const response = await axios.put(`${DOMAIN}/updatetablet`, {
                             tabletName: newRow.tabletName, 
                             deskno: newRow.deskno,
                             mfgDate: newRow.mfgDate,
@@ -104,7 +105,7 @@ const AdminCategory = () => {
                     
                     
                     try {
-                        const response = await axios.post('http://localhost:3000/tablets', {
+                        const response = await axios.post(`${DOMAIN}/tablets`, {
                             tabletName: newRow.tabletName,
                             deskno: newRow.deskno,
                             mfgDate: newRow.mfgDate,
@@ -149,7 +150,7 @@ const AdminCategory = () => {
 
     const handleDeleteRow = async () => {
         try {
-            const response = await axios.delete('http://localhost:3000/delete', {
+            const response = await axios.delete(`${DOMAIN}/delete`, {
                 data: { tabletName: tableData[deleteIndex].tabletName },
             });
 

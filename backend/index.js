@@ -14,9 +14,7 @@ const Tablets=require("./models/tablets");
 const Tablet = require('./models/tablets');
 const Cart = require('./models/Cart')
 const Address = require('./models/Address')
-
-
-
+require("dotenv").config()
 
 const app = express();
 app.use(express.urlencoded({ extended: true })); 
@@ -25,7 +23,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
-mongoose.connect('mongodb://127.0.0.1:27017/register');
+mongoose.connect(process.env.MONGO_URI);
 
 
 const activeUsers = new Map();
@@ -569,7 +567,7 @@ app.post('/addressPost',async(req,res)=>{
         ]
       })
       await newAddress.save();
-      res.status(200)
+      res.status(200).json({success:"true"})
     }
     
     else{
@@ -583,7 +581,7 @@ app.post('/addressPost',async(req,res)=>{
           zipCode
         })
         await user.save()
-        res.status(200)
+        res.status(200).json({success:"true"})
       }
     
     
@@ -605,13 +603,13 @@ app.post('/deleteItem',async(req,res)=>{
   console.log(email)
   const user = await Cart.findOne({email})
   if(!user){
-    res.status(400)
+    res.status(400).json({messgae:"failure"})
   }
   
   console.log(user)
   user.array = user.array.filter(eachItem=>eachItem.title!==title)
   await user.save()
-  res.status(200)
+  res.status(200).json({message :'success'})
 })
 
 

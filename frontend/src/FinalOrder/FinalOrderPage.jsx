@@ -7,6 +7,7 @@ import "reactjs-popup/dist/index.css";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 
 const FinalOrderPage = () => {
@@ -19,6 +20,7 @@ const FinalOrderPage = () => {
     const [city,setCity]=useState('')
     const [state,setState]=useState('')
     const [zipCode,setZipcode]=useState('')
+    const [refresh,setRefresh] = useState(true)
     const navigate = useNavigate()
     const [saved, setSaved] = useState(false);
    
@@ -28,14 +30,14 @@ const FinalOrderPage = () => {
         fetchedList();
         fetchedData();
         
-    })
+    },[refresh])
 
 
 
     const fetchedData=async()=>{
         const email=localStorage.getItem("email")
         try{
-            const response=await axios.get(`http://localhost:3000/getDetailes?email=${email}`)
+            const response=await axios.get(`${DOMAIN}/getDetailes?email=${email}`)
             setData(response.data) 
                    
         }catch(e){
@@ -47,10 +49,9 @@ const FinalOrderPage = () => {
         const email = localStorage.getItem("email")
        
         try{
-            const response = await axios.get(`http://localhost:3000/getAddress?email=${email}`)
+            const response = await axios.get(`${DOMAIN}/getAddress?email=${email}`)
             if (response.status===200){
-                setAddress(response.data)
-                
+                setAddress(response.data)                
             }
         }
         catch(e){
@@ -59,11 +60,9 @@ const FinalOrderPage = () => {
     }
 
     const getSave=async()=>{
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
         const email = localStorage.getItem('email')
         try{
-            const response = await axios.post('http://localhost:3000/addressPost',{
+            const response = await axios.post(`${DOMAIN}/addressPost`,{
                 fullName,
                 phoneNo,
                 email,
@@ -72,10 +71,10 @@ const FinalOrderPage = () => {
                 state,
                 zipCode,
             })
-            if(response.status==200){
-                console.log('added successfully')
-                fetchedList();
-                window.location.reload()
+            if(response.status === 200 ||response.status === 204){                        
+                setSaved(true);             
+                setTimeout(() => setSaved(false), 2000);       
+                fetchedList()      
             }
         }catch(e){
             console.log("something went Wrong",e)
@@ -84,9 +83,8 @@ const FinalOrderPage = () => {
 
     const getRemoved = async (title) => {
         const email= localStorage.getItem('email')
-        alert("enter into finalorder")
         try{
-            const response= await axios.post("http://localhost:3000/deleteItem",{
+            const response= await axios.post(`${DOMAIN}/deleteItem`,{
                 email,
                 title
             })
@@ -317,7 +315,9 @@ const FinalOrderPage = () => {
                                                                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                             </svg>
                                                             <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Are you sure you want to delete this user?</h3>
-                                                            <button onClick={()=>{getRemoved(eachItem.title)}}
+                                                            <button onClick={()=>{
+                                                                getRemoved(eachItem.title)
+                                                                close()}}
                                                                 class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                                                                 Yes, I'm sure
                                                             </button>

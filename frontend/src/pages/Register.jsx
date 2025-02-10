@@ -3,6 +3,7 @@ import logo from '../assets/img/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -64,14 +65,14 @@ const Register = () => {
 
     try {
       // 1. Register user
-      const res = await axios.post('http://localhost:3000/register', {
+      const res = await axios.post(`${DOMAIN}/register`, {
         firstName,
         lastName,
         email,
         password,
       });
       if (res.status === 201) {
-        const otpRes = await axios.post("http://localhost:3000/send-otp", { email,firstName,lastName});
+        const otpRes = await axios.post(`${DOMAIN}/send-otp`, { email,firstName,lastName});
         setMessage(otpRes.data.message);
         setIsOtpSent(true);
         const data = { otp: otpRes.data.otp, email,firstName,lastName,password };

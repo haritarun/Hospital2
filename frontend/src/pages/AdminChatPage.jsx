@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { FaBell, FaPaperPlane, FaSmile, FaPaperclip } from "react-icons/fa";
 import Picker from "emoji-picker-react";
+const DOMAIN = import.meta.env.VITE_SOCKET_DOMAIN
 
 const socket = socketIOClient("http://localhost:3002");
 

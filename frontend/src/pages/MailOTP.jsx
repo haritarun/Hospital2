@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import logo from '../assets/img/logo.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 function MailOTP() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function MailOTP() {
   const verifyOtp = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/verify-otp", {
+      const res = await axios.post(`${DOMAIN}/verify-otp`, {
         email: data.email, 
         otp: otp,
         firstName: data.firstName,

@@ -2,7 +2,7 @@ import axios from 'axios'
 import {useEffect,useState} from 'react'
 import { FiShoppingCart } from "react-icons/fi"
 import {Link} from 'react-router-dom'
-
+const DOMAIN = import.meta.env.VITE_DOMAIN
 
 const Cart = () => {
     const [data,setData]=useState([])
@@ -19,7 +19,7 @@ const Cart = () => {
         const email=localStorage.getItem("email")
         
         try{
-            const response=await axios.get(`http://localhost:3000/getDetailes?email=${email}`)
+            const response=await axios.get(`${DOMAIN}/getDetailes?email=${email}`)
             
             setData(response.data)            
         }catch(e){

@@ -4,10 +4,14 @@ import { FaEdit, FaTrash, FaPlus, FaChevronLeft, FaChevronRight, FaBars } from '
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import moment from 'moment';
+import { motion } from "framer-motion";
+
 
 const AdminCategory = () => {
     const [tableData, setTableData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isSave,setSave] = useState(false);
+    const [isEdit,setEdit] = useState(false)
     const [newRow, setNewRow] = useState({
         tabletName: '',
         deskno: '',
@@ -57,7 +61,7 @@ const AdminCategory = () => {
     };
 
     const handleSaveNewRow = async () => {
-        // Ensure all fields are filled before proceeding
+        
         if (
             newRow.tabletName &&
             newRow.deskno &&
@@ -69,7 +73,7 @@ const AdminCategory = () => {
                 if (editingIndex !== null) {
                     try {
                         const response = await axios.put('http://localhost:3000/updatetablet', {
-                            tabletName: newRow.tabletName, // Using tabletName as the unique identifier
+                            tabletName: newRow.tabletName, 
                             deskno: newRow.deskno,
                             mfgDate: newRow.mfgDate,
                             expDate: newRow.expDate,
@@ -77,12 +81,18 @@ const AdminCategory = () => {
                         });
 
                         if (response.status === 200) {
-                            alert('Tablet updated successfully');
+                            
                             const updatedTableData = [...tableData];
-                            updatedTableData[editingIndex] = newRow; // Update the row in the table data
+                            updatedTableData[editingIndex] = newRow; 
                             setTableData(updatedTableData);
+
                             setEditingIndex(null);
                             setIsModalOpen(false);
+                            setEdit(true)
+                            setTimeout(()=>{
+                                setEdit(false)
+
+                            },2000)
                         } else {
                             alert('Failed to update tablet. Please try again.');
                         }
@@ -91,7 +101,8 @@ const AdminCategory = () => {
                         alert(error.response?.data?.message || 'Failed to update tablet.');
                     }
                 } else {
-                    // Adding a new tablet
+                    
+                    
                     try {
                         const response = await axios.post('http://localhost:3000/tablets', {
                             tabletName: newRow.tabletName,
@@ -102,10 +113,13 @@ const AdminCategory = () => {
                         });
 
                         if (response.status === 201) {
-                            alert('Tablet added successfully');
-                            setTableData((prevTableData) => [...prevTableData, newRow]); // Append the new row
-
-                            // Reset the form fields
+                            
+                            setTableData((prevTableData) => [...prevTableData, newRow]); 
+                            setSave(true)
+                            setTimeout(()=>{
+                                setSave(false)
+                            },2000)
+                            
                             setNewRow({
                                 tabletName: '',
                                 deskno: '',
@@ -128,7 +142,7 @@ const AdminCategory = () => {
                 alert(error.response?.data?.message || 'Failed to save tablet. Please try again.');
             }
         } else {
-            // Show alert if required fields are empty
+           
             alert('Please fill out all fields.');
         }
     };
@@ -180,7 +194,57 @@ const AdminCategory = () => {
 
     return (
         <div className="flex  flex-col md:flex-row h-screen bg-gray-100">
-            {/* Sidebar */}
+            {isSave && (
+            <motion.div
+                className="fixed top-6 right-24 bg-green-500 text-white text-center py-2 px-4 rounded-md shadow-lg flex items-center justify-center gap-2"
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: -10 }} 
+                transition={{ duration: 0.5, ease: "easeOut" }} 
+            >
+                Data Saved Successfully 🎉
+                <motion.div
+                    className="h-2 bg-green-200 absolute bottom-0 left-0 w-full"
+                    initial={{ width: "100%" }}
+                    animate={{ width: "0%" }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                />
+            </motion.div>
+            )}
+            {isEdit && (
+            <motion.div
+                className="fixed  top-6 right-24 bg-green-500 text-white text-center py-2 px-4 rounded-md shadow-lg flex items-center justify-center gap-2"
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: -10 }} 
+                transition={{ duration: 0.5, ease: "easeOut" }} 
+            >
+                Data Edited Successfully 🎉
+                <motion.div
+                    className="h-2 bg-green-200 absolute bottom-0 left-0 w-full"
+                    initial={{ width: "100%" }}
+                    animate={{ width: "0%" }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                />
+            </motion.div>
+            )}
+            {isEdit && (
+            <motion.div
+                className="fixed  top-6 right-24 bg-green-500 text-white text-center py-2 px-4 rounded-md shadow-lg flex items-center justify-center gap-2"
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: -10 }} 
+                transition={{ duration: 0.5, ease: "easeOut" }} 
+            >
+                Data Deleted Successfully 🎉
+                <motion.div
+                    className="h-2 bg-green-200 absolute bottom-0 left-0 w-full"
+                    initial={{ width: "100%" }}
+                    animate={{ width: "0%" }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                />
+            </motion.div>
+            )}
             <aside
                 className={`${isSidebarOpen ? 'transform translate-x-0' : 'transform -translate-x-full'
                     } md:block bg-gray-800 text-white flex flex-col fixed inset-0 z-50 transition-transform duration-300 md:relative md:translate-x-0`}
@@ -211,7 +275,7 @@ const AdminCategory = () => {
                 </nav>
             </aside>
 
-            {/* Main Content */}
+            
             <div className="flex-1 p-6 ml-0 ">
                 <div className="mb-6 w-full flex justify-between items-center">
                     <button
@@ -278,7 +342,7 @@ const AdminCategory = () => {
                     </table>
                 </div>
 
-                {/* Pagination */}
+                
                 <div className="flex justify-between items-center mt-6">
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
@@ -298,7 +362,7 @@ const AdminCategory = () => {
                 </div>
             </div>
 
-            {/* Modal for Add/Edit Tablet */}
+            
             {isModalOpen && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-xl shadow-2xl w-[90%] sm:w-[75%] md:w-[50%] lg:w-[40%] xl:w-[30%]">
@@ -363,7 +427,7 @@ const AdminCategory = () => {
                 </div>
             )}
 
-            {/* Delete Popup */}
+            
             {isDeletePopupOpen && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-white p-6 rounded-xl shadow-2xl w-[90%] sm:w-[75%] md:w-[50%] lg:w-[40%] xl:w-[30%]">

@@ -132,6 +132,7 @@ const SwiperCard = () => {
 
 
   const fetchedList = async()=>{
+    
     const email=localStorage.getItem('email')
 
     try{
@@ -168,14 +169,13 @@ const SwiperCard = () => {
 
   const getIncrement=async(title) => {
     const email=localStorage.getItem('email')
-    console.log('enter into getIncrement')
+    
     try{
         const response=await axios.put('http://localhost:3000/getIncrement',{
             email,
             title
         })
-        if (response.status==200){
-           
+        if (response.status===200){
             fetchedList()
         }
 
@@ -205,7 +205,7 @@ const SwiperCard = () => {
   }
   
   return (
-    <div className="pr-16 pl-16">
+    <div className="pr-6 pl-6 md:pr-16 md:pl-16">
         <div className='flex w-full justify-between mt-5 mb-8 items-center'>
             <h1 className='font-semibold text-xl '>Daily Usage</h1>
             <p className='font-normal text-blue-600'>See More</p>

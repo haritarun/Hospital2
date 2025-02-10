@@ -5,6 +5,7 @@ import SwiperCard from './SwiperCard'
 import Footer from '../HomePage/Footer'
 import Filter from './Filter'
 import Cart from './Cart'
+import ShopBrand from './ShopBrand'
 
 
 const Shop = () => {
@@ -18,6 +19,7 @@ const Shop = () => {
       <Filter />
       <SwiperCard />
       <SwiperCard />
+      <ShopBrand />
       <hr />
       <Footer />
     </div>

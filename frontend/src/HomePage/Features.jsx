@@ -13,10 +13,8 @@ const Features = () => {
     <section className="py-12 text-gray-100 sm:py-12 lg:py-16">
     <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="max-w-xl mx-auto text-center xl:max-w-2xl" data-aos="fade-up">
-            <h2 className="text-3xl font-bold leading-tight text-gray-500 sm:text-4xl xl:text-5xl mb-6">We are just
-                getting started!</h2>
-            <p className="mb-4 text-black">We are creating a tool that helps you be more productive and efficient when building
-                websites and webapps</p>
+            <h2 className="text-3xl font-bold leading-tight text-gray-500 sm:text-4xl xl:text-5xl mb-6">More Intresting Fetature Are Below!</h2>
+            <p className="mb-4 text-black">Features of the this webpage and this service are given below</p>
 
         </div>
         <div
@@ -35,13 +33,13 @@ const Features = () => {
                             <ellipse cx="17" cy="16" rx="3" ry="3" transform="rotate(90 17 16)" stroke="#111827"
                                 stroke-width="2" stroke-linecap="round"></ellipse>
                         </svg>
-                        <h3 className="mt-6 text-2xl font-bold text-gray-900 sm:mt-10">Realtime Collaboration</h3>
+                        <h3 className="mt-6 text-2xl font-bold text-gray-900 sm:mt-10">Realtime Chating</h3>
                         <p className="mt-6 text-base text-gray-600">Collaborate in realtime with other editors in a
                             project. See what othe editors are doing and edit even a simple text together</p>
                     </div>
                 </div>
             </div>
-            <div className="overflow-hidden bg-white shadow-md rounded-xl hover:scale-105 transition-transform  transfrom-ease-in-out hover:shadow-xl" data-aos='fade-up'>
+            <div className="overflow-hidden bg-white shadow-md rounded-xl hover:scale-105 transition-transform  transfrom-ease-in-out hover:shadow-xl " data-aos='fade-up'>
                 <div className="p-9"><svg className="w-12 h-12 mx-auto text-gray-400 sm:mx-0" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <rect x="13" y="14" width="2" height="2" rx="1" fill="#111827"></rect>

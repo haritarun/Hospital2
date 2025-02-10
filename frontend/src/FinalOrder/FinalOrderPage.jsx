@@ -142,7 +142,7 @@ const FinalOrderPage = () => {
 
   return (
     
-    <div className="flex md:flex-row justify-between min-h-screen pl-20 pr-20 pt-20 xs:flex-col">
+    <div className="flex flex-col md:flex-row justify-between min-h-screen px-4 sm:px-8 md:px-20 pt-10 md:pt-20">
          {saved && (
             <motion.div
                 className="fixed top-20 right-5 bg-green-500 text-white text-center py-2 px-4 rounded-md shadow-lg flex items-center justify-center gap-2"
@@ -161,7 +161,7 @@ const FinalOrderPage = () => {
             </motion.div>
                 )}
         
-            <div className="bg-gray-100 rounded-lg  p-6 w-[45%] h-fit">
+            <div className="bg-gray-100 rounded-lg p-6 w-full md:w-[45%] h-fit">
                 <h1 className="text-2xl font-bold mb-6">Address</h1>
                   
 
@@ -205,8 +205,8 @@ const FinalOrderPage = () => {
                                 >
                                 {
                                     (close)=>(
-                                        <div className="flex items-center justify-center p-12">   
-                                            <div className="mx-auto w-full max-w-[550px] bg-white">
+                                        <div className="flex items-center justify-center p-6 sm:p-12">   
+                                            <div className="mx-auto w-full max-w-lg bg-white p-6 rounded-lg shadow-lg">
                                                
                                                     <div className="mb-5">
                                                         <label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
@@ -286,7 +286,7 @@ const FinalOrderPage = () => {
                 
            
                 
-            <div className=" w-[40%] mx-auto ">
+            <div className="w-full md:w-[40%] mx-auto mt-10 md:mt-0 ">
                 
                 <div className="bg-white shadow-lg rounded-lg overflow-hidden">
                     <div className="flex items-center justify-between px-4 py-3 bg-gray-200">
@@ -306,7 +306,31 @@ const FinalOrderPage = () => {
                                     <button className="text-gray-600 hover:text-red-500">
                                             <button className="relative w-full p-4 text-blue-500 font-bold rounded-lg overflow-hidden group hover:text-white">
                                                 <span className="absolute inset-0 bg-blue-500  text-white scale-0 group-hover:scale-100 transition-transform duration-00 ease-in-out rounded-lg "></span>
-                                                <span className="relative" onClick={()=>{getRemoved(eachItem.title)}}>Remove</span>
+                                                <Popup trigger={<span className="relative" >Remove</span>}
+                                                modal>
+                                                    {
+                                                        (close)=>(
+                                                            <div class="p-6 pt-0 text-center">
+                                                            <svg class="w-20 h-20 text-red-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                            </svg>
+                                                            <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Are you sure you want to delete this user?</h3>
+                                                            <button onClick={()=>{getRemoved(eachItem.title)}}
+                                                                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                                                                Yes, I'm sure
+                                                            </button>
+                                                            <button
+                                                                class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center"
+                                                                data-modal-toggle="delete-user-modal" 
+                                                                onClick={close}>
+                                                                No, cancel
+                                                            </button>
+                                                        </div>
+                                                        )
+                                                    }
+                                                </Popup>
                                             </button>
                                     </button>
                                 </div>
@@ -317,14 +341,16 @@ const FinalOrderPage = () => {
                     <div className="px-4 py-3 bg-gray-200">
                         <div className="flex justify-between items-center">
                             <span className="font-bold text-lg">Total:</span>
-                            <span className="font-bold text-lg">{total}</span>
+                            <span className="font-bold text-lg">{total.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between mt-4"> 
                             <button className="relative w-1/2 text-white font-bold rounded-lg overflow-hidden group" onClick={()=>{navigate('/order')}}>
                                 <span className="absolute inset-0 bg-slate-500 scale-0 group-hover:scale-100 transition-transform duration-00 ease-in-out rounded-lg"></span>
                                 <span className="relative ">Check out</span>
                             </button>
-                            <button className="block w-[40%]  bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            <button 
+                            onClick={()=>{navigate("/payment")}}
+                            className="block w-[40%]  bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                 Order Now
                             </button>
                         </div>

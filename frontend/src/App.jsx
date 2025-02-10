@@ -23,6 +23,8 @@ import Shop from './Shop/Shop';
 import Order from './Order/Order';
 import FinalOrder from './FinalOrder/FinalOrder';
 import Product from './Product/Product'
+import Payment from './Payment/Payment';
+
 
 function App() {
   return (  
@@ -30,12 +32,12 @@ function App() {
       <Routes>
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/UserChatPage" element={<UserChatPage />} />
+        <Route exact path="/chat" element={<UserChatPage />} />
         <Route exact path="/navbar" element={<Navbar />} />
         <Route exact path="/dashboard" element={<AdminDashboard />} />
         <Route exact path="/chatList" element={<ChatList />} />
         <Route exact path="/adminchat" element={<AdminChat />} />
-        <Route exact path="/userchat" element={<UserChat />} />
+        
         <Route exact path="/chatpage" element={<ChatPage />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/mailotp" element={<MailOTP />} />
@@ -50,6 +52,7 @@ function App() {
         <Route exact path="/order" element={<Order />} />
         <Route exact path="/finalorder" element={<FinalOrder />} />
         <Route exact path="/product" element={<Product /> } />
+        <Route exact path="/payment" element={<Payment />} />
       </Routes>
      </BrowserRouter>
   );

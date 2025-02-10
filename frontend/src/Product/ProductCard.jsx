@@ -30,7 +30,7 @@ const ProductCard = () => {
             />
     </div>
 			<div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
-				<h1 className="text-3xl font-semibold">Citrogen 10 tablet's 10 mg</h1>
+				<h1 className="text-3xl font-semibold">Citrogen 10 tablet 10 mg</h1>
 
                             <h1 className="text-2xl font-semibold mt-4 mb-0">Price</h1>
                             <p className="text-green-800 text-xl mt-1">$2.34</p>

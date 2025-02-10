@@ -16,7 +16,10 @@ const Cart = require('./models/Cart')
 const Address = require('./models/Address')
 
 
+
+
 const app = express();
+app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 app.use(cors());
 const server = http.createServer(app);
@@ -396,7 +399,7 @@ app.post('/login', async (req, res) => {
 });
 
 
-//details for profile
+
 app.get('/details', async (req, res) => {
     const { email } = req.query; 
     if (!email) {
@@ -470,6 +473,7 @@ app.get('/getcartdetailes',async(req,res)=>{
   }))
   
   res.status(200).json({data})
+  console.log(data)
 })
 
 app.get('/getDetailes',async(req,res)=>{
@@ -480,11 +484,14 @@ app.get('/getDetailes',async(req,res)=>{
   if (!user){
     return res.status(400).json({message:'email not found'})
   }
+
   res.status(200).json(user.array)
 })
 
-app.put('/getIncrement',async(req,res)=>{
+app.put('/getIncrement', async (req,res)=>{
   const {email,title}=req.body
+  console.log(email)
+  console.log(title)
   const user = await Cart.findOne({email})
 
   if (!user){
@@ -493,15 +500,8 @@ app.put('/getIncrement',async(req,res)=>{
   const existing = user.array.find(eachItem=>eachItem.title===title)
   if (existing){
     existing.quantity+=1
-    await user.save()
-
-    const data = user.array.map(eachItem=>({
-      title:eachItem.title,
-      price:eachItem.price,
-      quantity:eachItem.quantity
-    }))
-    
-    return res.status(200).json({data}) 
+    await user.save();
+    return res.status(200).json({data:'message'})
   }
 })
 
@@ -613,6 +613,8 @@ app.post('/deleteItem',async(req,res)=>{
   await user.save()
   res.status(200)
 })
+
+
 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id); 

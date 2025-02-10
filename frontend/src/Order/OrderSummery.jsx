@@ -3,6 +3,7 @@ import axios from "axios"
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import {Link} from 'react-router-dom'
+import { motion } from "framer-motion";
 
 const OrderSummery = () => {
     const [data,setData]=useState([])
@@ -14,6 +15,7 @@ const OrderSummery = () => {
     const [city,setCity]=useState('Viziyanagaram')
     const [state,setState]=useState('andraPradesh')
     const [zipCode,setZipcode]=useState('535218')
+    const [saved, setSaved] = useState(false);
     
 
     
@@ -21,15 +23,17 @@ const OrderSummery = () => {
         fetchedList()
         fetcheUserdata()
 
-    })
+    },[])
     
     const total = data.reduce((sum,item)=>sum+item.price*item.quantity,0)
 
     const fetchedList=async()=>{
         const email=localStorage.getItem("email")
+        
         try{
             const response=await axios.get(`http://localhost:3000/getDetailes?email=${email}`)
-            setData(response.data)            
+            setData(response.data)   
+            console.log(data)         
         }catch(e){
             console.log('something went wrong',e)
         }
@@ -57,6 +61,7 @@ const OrderSummery = () => {
                 email,
                 title
             })
+    
             if (response.status==200){
                 console.log('successfully incremented')
                 fetchedList();
@@ -70,24 +75,24 @@ const OrderSummery = () => {
 
     const getIncrement=async(title) => {
         const email=localStorage.getItem('email')
-        console.log('enter into getIncrement')
         try{
             const response=await axios.put('http://localhost:3000/getIncrement',{
                 email,
                 title
             })
-            if (response.status==200){
-                console.log('successfully incremented')
-                fetchedList();
+            if (response.status===200){
+                fetchedList()
             }
     
     
         }catch(e){
-            console.log('something went wrong',e)
+            alert('something went wrong',e)
         }
-    }
+      }
 
     const getSave=async()=>{
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
         try{
             const response = await axios.post('http://localhost:3000/addressPost',{
                 firstName,
@@ -100,6 +105,7 @@ const OrderSummery = () => {
             })
             if(response.status==200){
                 console.log('added successfully')
+                
             }
         }catch(e){
             console.log("something went Wrong",e)
@@ -108,6 +114,24 @@ const OrderSummery = () => {
 
   return (
         <div className="py-5 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+            {
+            saved && (
+            <motion.div
+                className="fixed top-20 right-5 bg-green-500 text-white text-center py-2 px-4 rounded-md shadow-lg flex items-center justify-center gap-2"
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: -10 }} 
+                transition={{ duration: 0.5, ease: "easeOut" }} 
+            >
+                Address Saved Successfully 🎉
+                <motion.div
+                    className="h-2 bg-green-200 absolute bottom-0 left-0 w-full"
+                    initial={{ width: "100%" }}
+                    animate={{ width: "0%" }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                />
+            </motion.div>
+                )}
         <div className="flex justify-start item-start space-y-2 flex-col">
             <h1 className="text-3xl dark:text-white lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">Order {data.length}</h1>
             <p className="text-base dark:text-gray-300 font-medium leading-6 text-gray-600">21st Mart 2021</p>
@@ -127,8 +151,8 @@ const OrderSummery = () => {
                                     <div className="w-full flex flex-col justify-start items-start space-y-8">
                                         <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">{eachItem.title}</h3>
                                         <div className="flex justify-start items-start flex-col space-y-2">
-                                            <p className="text-sm dark:text-white leading-none text-gray-800"><span className="dark:text-gray-400 text-gray-300">Style: </span> Italic Minimal Design</p>
-                                            <p className="text-sm dark:text-white leading-none text-gray-800"><span className="dark:text-gray-400 text-gray-300">Size: </span> Small</p>
+                                            <p className="text-sm dark:text-white leading-none text-gray-800"><span className="dark:text-gray-400 text-gray-300">Style: </span> Medicine From Inida</p>
+                                            <p className="text-sm dark:text-white leading-none text-gray-800"><span className="dark:text-gray-400 text-gray-300">Size: </span> 100 mg</p>
                                             <p className="text-sm dark:text-white leading-none text-gray-800"><span className="dark:text-gray-400 text-gray-300">Color: </span> Light Blue</p>
                                         </div>
                                     </div>
@@ -164,7 +188,7 @@ const OrderSummery = () => {
                                     </div>
                                 </div>
                             </div>
-                        ))
+                                            ))
                     }
                     
                 </div>
@@ -174,7 +198,7 @@ const OrderSummery = () => {
                         <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
                             <div className="flex justify-between w-full">
                                 <p className="text-base dark:text-white leading-4 text-gray-800">Subtotal</p>
-                                <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{total}</p>
+                                <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{total.toFixed(2)}</p>
                             </div>
                             <div className="flex justify-between items-center w-full">
                                 <p className="text-base dark:text-white leading-4 text-gray-800">Discount <span className="bg-gray-200 p-1 text-xs font-medium dark:bg-white dark:text-gray-800 leading-3 text-gray-800">STUDENT</span></p>
@@ -187,7 +211,7 @@ const OrderSummery = () => {
                         </div>
                         <div className="flex justify-between items-center w-full">
                             <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">Total</p>
-                            <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">{total}</p>
+                            <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">{total.toFixed(2)}</p>
                         </div>
                     </div>
                     <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
@@ -198,7 +222,7 @@ const OrderSummery = () => {
                                     <img className="w-full h-full" alt="logo" src="https://i.ibb.co/L8KSdNQ/image-3.png" />
                                 </div>
                                 <div className="flex flex-col justify-start items-center">
-                                    <p className="text-lg leading-6 dark:text-white font-semibold text-gray-800">DPD Delivery<br /><span className="font-normal">Delivery with 24 Hours</span></p>
+                                    <p className="text-lg leading-6 dark:text-white font-semibold text-gray-800">Fast Delivery<br /><span className="font-normal">Delivery with 3 Hours</span></p>
                                 </div>
                             </div>
                             <p className="text-lg font-semibold leading-6 dark:text-white text-gray-800">$8.00</p>
@@ -235,7 +259,7 @@ const OrderSummery = () => {
                         <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
                             <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
                                 <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Shipping Address</p>
-                                <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">180 North King Street, Northhampton MA 1060</p>
+                                <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">180 Nuzvid Mangalavaram Road</p>
                             </div>
                             <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
                                 <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Billing Address</p>
@@ -251,16 +275,16 @@ const OrderSummery = () => {
                             modal
                             nested>
                                 {(close) => (
-                                <div className="flex items-center justify-center p-12">
+                                <div className="md:flex items-center justify-center p-12 xs:p-6">
                                 
-                                    <div className="mx-auto w-full max-w-[550px] bg-white">
+                                    <div className="xs:max-w-lg mx-auto w-full max-w-[550px] bg-white">
                                         <form>
                                             <div className="mb-5">
                                                 <label for="name" className="mb-3 block text-base font-medium text-[#07074D]">
                                                     Full Name
                                                 </label>
                                                 <input type="text" name="name" id="name" placeholder="Full Name" value={firstName}
-                                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                                                    className="sm:px  sm:py-2 w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                                             </div>
                                             <div className="mb-5">
                                                 <label for="phone" className="mb-3 block text-base font-medium text-[#07074D]">
@@ -316,7 +340,10 @@ const OrderSummery = () => {
                                                     Close
                                                 </button>
                                                 <button
-                                                    className="hover:shadow-form w-[40%] rounded-md bg-green-400 py-3 px-8 text-center text-base font-semibold text-white outline-none hover:bg-green-600"  onClick={getSave()}>
+                                                    className="hover:shadow-form w-[40%] rounded-md bg-green-400 py-3 px-8 text-center text-base font-semibold text-white outline-none hover:bg-green-600"  onClick={()=>{
+                                                        getSave()
+                                                        close()
+                                                        }}>
                                                     Save
                                                 </button>
                                             </div>

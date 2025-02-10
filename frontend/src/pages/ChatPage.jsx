@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import ChatList from '../components/ChatList';  // For displaying all users
-import UserChat from '../components/UserChat';  // For chatting with selected user
-import AdminChat from '../components/AdminChat';  // For admin-to-admin chat (optional)
-import { getUsers, getChatHistory } from '../utils/api';  // Utility functions to interact with backend API
+import  { useState, useEffect } from 'react';
+import ChatList from '../components/ChatList';  
+import UserChat from '../components/UserChat';  
+
+import { getUsers, getChatHistory } from '../utils/api';  
 
 const ChatPage = () => {
-  const [selectedUser, setSelectedUser] = useState(null); // User selected for chat
-  const [users, setUsers] = useState([]); // All active users
-  const [chatHistory, setChatHistory] = useState([]); // Chat history with the selected user
+  const [selectedUser, setSelectedUser] = useState(null); 
+  const [users, setUsers] = useState([]); 
+  const [chatHistory, setChatHistory] = useState([]); 
 
-  // Fetch the list of users when the component mounts
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const usersData = await getUsers();  // API call to fetch users
+        const usersData = await getUsers();  
         setUsers(usersData);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -23,12 +23,12 @@ const ChatPage = () => {
     fetchUsers();
   }, []);
 
-  // Fetch chat history when a user is selected
+  
   useEffect(() => {
     const fetchChatHistory = async () => {
       if (selectedUser) {
         try {
-          const chatData = await getChatHistory(selectedUser.id);  // API call to fetch chat history
+          const chatData = await getChatHistory(selectedUser.id);  
           setChatHistory(chatData);
         } catch (error) {
           console.error('Error fetching chat history:', error);
@@ -46,11 +46,12 @@ const ChatPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      
       {!selectedUser ? (
-        // Display the ChatList for admin to select a user
+        
         <ChatList users={users} onSelectUser={handleSelectUser} />
       ) : (
-        // Once a user is selected, show the UserChat component
+        
         <UserChat user={selectedUser} chatHistory={chatHistory} />
       )}
     </div>

@@ -24,7 +24,8 @@ function MailOTP() {
       setMessage(res.data.message);
       localStorage.setItem("firstName",data.firstName);
       localStorage.setItem("email",data.email);
-      navigate('/userdashboard');
+      localStorage.setItem("justLogin",true)
+      navigate('/');
     } catch (error) {
       setMessage(error.response?.data?.message || "Failed to verify OTP.");
     }

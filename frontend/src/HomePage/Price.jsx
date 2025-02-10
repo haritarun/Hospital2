@@ -11,21 +11,7 @@ const Price = () => {
             })
   return (
     <div className="space-y-5 px-8 py-12">
-    <div className="container flex space-x-2">
-    <div className="no-scrollbar overflow-hidden" data-aos="fade-up">
-            <div className="flex justify-center space-x-6 items-center overflow-x-auto">
-                <button className="font-semibold whitespace-nowrap text-base text-gray-500 hover:text-gray-600 transition-colors duration-300">
-                    Monthly
-                </button>
-                <button className="font-semibold whitespace-nowrap text-base hover:text-gray-600 transition-colors duration-300 text-gray-900">
-                    Annually
-                    </button>
-            </div>
-        </div>
-        <button className="text-purple-500 font-semibold text-base">
-            (2 months free)
-        </button> 
-    </div>
+   
     <div className="demo-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" >
         <div
             className="rounded-[30px] md:rounded-[36px] bg-[#FAFAFA] overflow-hidden border-[1px] border-gray-200 p-8 relative" data-aos="fade-up">

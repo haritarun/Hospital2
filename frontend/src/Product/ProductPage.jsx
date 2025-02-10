@@ -2,7 +2,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {useState,useRef} from 'react'
-import Magnifier from "react-magnifier";
+
 
 const ProductPage = () => {
     const [activeIndex,setIndex]=useState(0)
@@ -41,18 +41,14 @@ const ProductPage = () => {
                     <div className="md:flex-1 px-4 w-[500px]">
                         
                             <Slider ref={sliderRef} {...settings}>
-                                {data.map((eachItem) => (
+                                {data.map(eachItem => (
                                     <div className="h-[500px] w-[400px] bg-gray-300 dark:bg-gray-700 mb-4 rounded-3xl">
-                                        
                                             <img
                                                 key={eachItem.id}
                                                 className="w-full h-full object-cover rounded-3xl"
                                                 src={eachItem.imageUrl}
                                                 alt="Product Image"
                                             />
-                                        
-                                        
-
                                     </div>
                                     
                                 ))}

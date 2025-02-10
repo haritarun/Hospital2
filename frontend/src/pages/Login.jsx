@@ -23,7 +23,7 @@ const Login = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    // Handle login logic
+    
     const handleLogin = async () => {
         if (!email || !password) {
             if (!email) {
@@ -44,7 +44,7 @@ const Login = () => {
             
             localStorage.setItem('email', email);  
             if (response.status === 200) {
-                navigate('/userdashboard');
+                navigate('/');
             }
         } catch (err) {
             if (err.response) {

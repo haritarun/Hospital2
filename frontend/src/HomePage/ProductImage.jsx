@@ -1,8 +1,10 @@
-import React,{useEffect} from 'react'
+import {useEffect} from 'react'
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const ProductImage = () => {
+
+const ProductImage = () => { 
+    
      useEffect(()=>{
                 AOS.init({
                     duration:1500,
@@ -16,8 +18,7 @@ const ProductImage = () => {
         <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
             <div className="sm:max-w-lg" data-aos="fade-up">
             <h1 className="font text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Unveiling Pharmaceuticals:</h1>
-            <p className="mt-4 text-xl text-gray-500">This year, our new svelte signals will shelter you from the harsh
-                elements of a world that doesn't care if you develop or die.</p>
+            <p className="mt-4 text-xl text-gray-500">Book your tablets online effortlessly and get them delivered to your doorstep with ease!</p>
             </div>
             <div>
             <div className="mt-10">
@@ -56,7 +57,7 @@ const ProductImage = () => {
                 </div>
                 </div>
 
-                <a href="#" className="inline-block rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-center font-medium text-white hover:bg-indigo-700" data-aos="fade-up" >Order Now</a>
+                <a href="/shop" className="inline-block rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-center font-medium text-white hover:bg-indigo-700" data-aos="fade-up" >Order Now</a>
             </div>
             </div>
         </div>

@@ -1,8 +1,9 @@
 
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Header from '../HomePage/Header'
+
 
 const Profile = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -102,52 +103,12 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-green-100">
-      {/* Sidebar */}
-      <aside className={`${isSidebarOpen ? "fixed inset-0 z-50 w-64 bg-gray-800 text-white transition-all" : "hidden md:block"} md:block bg-gray-800 text-white flex flex-col`}>
-        <div className="p-4 text-center font-bold text-xl border-b border-green-700 flex justify-between items-center">
-          <span>User Dashboard</span>
-          <button
-            className="block md:hidden text-green-300 hover:text-white"
-            onClick={() => setIsSidebarOpen(false)}
-          >
-            ✕
-          </button>
-        </div>
-        <nav className="flex-1 p-4 space-y-4">
-          <Link to="/userchatpage" className="block py-2 text-center px-4 rounded hover:bg-green-700 transition">Chat</Link>
-          <Link to="/profile" className="block text-center py-2 px-4 rounded hover:bg-green-700 transition">Profile</Link>
-          <a href="/myorders" className="block text-center py-2 px-4 rounded hover:bg-green-700 transition">Myorders</a>
-          <a href="#" className="block text-center py-2 px-4 rounded hover:bg-green-700 transition">Activity</a>
-        </nav>
-        <div className="p-4 border-t border-green-700">
-          <Link to="/login"><button className="w-full py-2 px-4 bg-red-600 rounded hover:bg-red-700 transition">Logout</button></Link>
-        </div>
-      </aside>
-
-      {/* Main Content */}
+    <>
+      <Header />
+      <div className="flex flex-col md:flex-row min-h-screen bg-green-50">
+      
       <div className={`flex-1 flex flex-col ${isSidebarOpen ? "overflow-hidden" : ""}`}>
-        {/* Header */}
-        <header className="bg-white shadow px-4 md:px-6 py-4 flex justify-between items-center sticky top-0 z-20">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="block md:hidden p-2 bg-green-800 text-white rounded"
-            >
-              ☰
-            </button>
-            <h1 className="text-lg md:text-xl font-bold uppercase">Welcome,{firstName} {lastName} </h1>
-          </div>
-          <div className="flex items-center space-x-4">
-          <img
-          src={imageUrl || `https://ui-avatars.com/api/?name=${firstName}+${lastName}`}
-          alt="Profile"
-          className="w-8 h-8 md:w-10 md:h-10 rounded-full border"
-        />
-          </div>
-        </header>
-
-        {/* Content */}
+        
         <main className="flex-1 bg-green-100 p-4 md:p-6">
           <div className="text-green-900 flex justify-center items-start pt-6">
             <div className="w-full sm:w-9/12 lg:w-7/12 xl:w-6/12 max-w-lg bg-white shadow-lg rounded-lg overflow-hidden">
@@ -256,6 +217,7 @@ const Profile = () => {
         </main>
       </div>
     </div>
+    </>
   );
 };
 

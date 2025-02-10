@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaPaperPlane, FaSmile } from "react-icons/fa"; 
 import Picker from 'emoji-picker-react'; 
+import Header from '../HomePage/Header'
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const socket = socketIOClient("http://localhost:3002");
 
@@ -24,6 +26,11 @@ const UserChatPage = () => {
   const chatContainerRef = useRef(null); 
 
   useEffect(() => {
+    AOS.init({
+                duration:1500,
+                once:true
+            })
+
     const fetchUserDetails = async () => {
       try {
         const email = localStorage.getItem('email');
@@ -126,83 +133,78 @@ const UserChatPage = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-blue-100"> {/* Updated background color */}
-      {/* Sidebar */}
-      <aside className={`${isSidebarOpen ? "fixed inset-0 z-50 w-64 bg-gray-800 text-white transition-all" : "hidden md:block"} md:block bg-gray-800 text-white flex flex-col`}>
-        <div className="p-4 text-center font-bold text-xl border-b border-green-700 flex justify-between items-center">
-          <span>User Dashboard</span>
-          <button
-            className="block md:hidden text-green-300 hover:text-white"
-            onClick={() => setIsSidebarOpen(false)}
-          >
-            ✕
-          </button>
-        </div>
-        <nav className="flex-1 p-4 space-y-4">
-          <Link to="/userchatpage" className="block py-2 text-center px-4 rounded hover:bg-green-700 transition">Chat</Link>
-          <Link to="/UserChatPage" className="block text-center py-2 px-4 rounded hover:bg-green-700 transition">UserChatPage</Link>
-          <a href="/myorders" className="block text-center py-2 px-4 rounded hover:bg-green-700 transition">Myorders</a>
-          <a href="#" className="block text-center py-2 px-4 rounded hover:bg-green-700 transition">Activity</a>
-        </nav>
-      </aside>
+    <>
+      <Header />
+      <div className="flex flex-col md:flex-row min-h-screen bg-blue-100" >
+      
+      
 
-      {/* Main Content */}
       <div className={`flex-1 flex flex-col ${isSidebarOpen ? "overflow-hidden" : ""}`}>
-        {/* Header */}
-        <header className="bg-blue-100 shadow px-4 md:px-6 py-4 mb:h-full flex justify-between items-center sticky top-0 z-20">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="block md:hidden p-2 bg-green-800 text-white rounded"
-            >
-              ☰
-            </button>
-            <h1 className="text-lg md:text-xl font-bold uppercase">Welcome, {firstName} {lastName}</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <img
-              src={imageUrl || `https://ui-avatars.com/api/?name=${firstName}+${lastName}`}
-              alt="UserChatPage"
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full border"
-            />
-          </div>
-        </header>
-
-        {/* Chat Section */}
+        
         <div className="flex flex-col w-full h-full max-w-full mx-auto bg-blue-50 rounded-lg shadow-lg" style={{ marginBottom: 0, paddingBottom: 0 }}>
-          <div
-            ref={chatContainerRef}
-            className="p-4 overflow-y-auto flex-1 space-y-3"
-            style={{
-              maxHeight: "calc(100vh - 140px)",
-              overflowY: "auto",
-              wordWrap: "break-word",
-              wordBreak: "break-word",
-            }}
-          >
-            {chats.map((chat, index) => (
-              <div key={index} className={`flex items-start ${chat.username === firstName ? "justify-end" : "justify-start"}`}>
-               
-                <div className={`p-2 rounded-lg max-w-xl ${chat.username === firstName ? "bg-blue-200" : "bg-white"}`} style={{ wordWrap: "break-word", wordBreak: "break-word" }}>
-                  <span className="text-sm pr-4">{chat.message}</span>
-                  <span className="text-[50%] text-gray-400">{new Date(chat.timestamp).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+            <div
+      ref={chatContainerRef}
+      className="p-4 overflow-y-auto flex-1 space-y-3"
+      style={{
+        maxHeight: "calc(100vh - 140px)",
+        overflowY: "auto",
+        wordWrap: "break-word",
+        wordBreak: "break-word",
+      }}
+    >
+      {chats.map((chat, index) => (
+        <div
+          key={index}
+          className={`flex items-start gap-2 ${
+            chat.username === firstName ? "justify-end" : "justify-start"
+          }`}
+        >
+          
+          {chat.avatar && (
+            <img
+              src={chat.avatar}
+              alt="User Avatar"
+              className="w-10 h-10 rounded-full object-cover border"
+            />
+          )}
 
-          {/* Emoji Picker and Input Area */}
-          <div className="flex p-3 border-t border-green-200 space-x-2 bg-white ">
+          <div
+            className={`p-2 rounded-lg max-w-xl ${
+              chat.username === firstName ? "bg-blue-200" : "bg-white"
+            }`}
+            style={{ wordWrap: "break-word", wordBreak: "break-word" }}
+          >
+            
+            {chat.message.includes("http") && (chat.message.endsWith(".jpg") || chat.message.endsWith(".png") || chat.message.endsWith(".jpeg")) ? (
+              <img
+                src={chat.message}
+                alt="Sent Image"
+                className="max-w-[250px] max-h-[300px] rounded-lg object-cover"
+              />
+            ) : (
+              <span className="text-sm pr-4">{chat.message}</span>
+            )}
+            <span className="text-[50%] text-gray-400">
+              {new Date(chat.timestamp).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+          </div>
+        </div>
+      ))}
+            </div>
+
+
+         
+          <div className="flex p-3  border-green-200 space-x-2 bg-white ">
             <input
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Type your message..."
               className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              style={{ marginBottom: "0" }} // Ensure no margin below
+              style={{ marginBottom: "0" }} 
             />
             <button
               onClick={() => setShowEmojiPicker(!showEmojiPicker)}
@@ -218,7 +220,6 @@ const UserChatPage = () => {
             </button>
           </div>
 
-          {/* Emoji Picker */}
           {showEmojiPicker && (
             <div className="absolute bottom-20 left-0 z-50">
               <Picker onEmojiClick={handleEmojiClick} />
@@ -227,6 +228,7 @@ const UserChatPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

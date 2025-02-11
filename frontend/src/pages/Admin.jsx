@@ -83,7 +83,7 @@ const AdminLogin = () => {
                     </div>
                     <div className="mt-8 flex flex-col items-center">
                         <div className="w-full flex-1 mt-6">
-                            {/* Google Sign-In Button */}
+                            
                             <div className="w-full mb-6">
                                 <button
                                     className="w-full max-w-xs font-bold shadow-sm rounded-lg py-2 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
@@ -125,9 +125,9 @@ const AdminLogin = () => {
                                 </div>
                             </div>
 
-                            {/* Login Form */}
+                            
                             <form onSubmit={handleSubmit} className="mx-auto max-w-xs">
-                                {/* Email Field */}
+                                
                                 <input
                                     className="w-full px-6 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-xs focus:outline-none focus:border-green-500 focus:bg-white transition-all duration-300"
                                     type="email"
@@ -137,7 +137,7 @@ const AdminLogin = () => {
                                     aria-label="Email"
                                 />
                                 
-                                {/* Password Field */}
+                                
                                 <div className="relative mt-4">
                                     <input
                                         className="w-full px-6 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-xs focus:outline-none focus:border-green-500 focus:bg-white transition-all duration-300"
@@ -160,7 +160,7 @@ const AdminLogin = () => {
                                     </button>
                                 </div>
 
-                                {/* Submit Button */}
+                                
                                 <button
                                     type="submit"
                                     className="mt-4 tracking-wide font-semibold bg-green-400 text-white w-full py-3 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
@@ -181,14 +181,14 @@ const AdminLogin = () => {
                                 </button>
                             </form>
 
-                            {/* Error Popup */}
+                           
                             {showPopup && (
                                 <div className="absolute top-0 right-0 mt-5 mr-5 p-4 bg-red-500 text-white rounded-lg shadow-lg">
                                     {popupMessage}
                                 </div>
                             )}
 
-                            {/* Register Link */}
+                            
                             <p className="mt-4 text-xs text-gray-600 text-center">
                                 You don't have an account? Please <Link to="/register" className="font-bold text-blue-700">Register</Link>
                             </p>
@@ -196,7 +196,7 @@ const AdminLogin = () => {
                     </div>
                 </div>
 
-                {/* Optional: Background image section */}
+                
                 <div className="flex-1 bg-green-100 text-center hidden lg:flex">
                     <div
                         className="m-8 xl:m-12 w-[80%] bg-contain bg-center bg-no-repeat"

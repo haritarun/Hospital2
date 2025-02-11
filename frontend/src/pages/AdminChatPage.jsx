@@ -4,19 +4,18 @@ import { FaBell, FaPaperPlane, FaSmile, FaPaperclip } from "react-icons/fa";
 import Picker from "emoji-picker-react";
 const DOMAIN = import.meta.env.VITE_SOCKET_DOMAIN
 
-const socket = socketIOClient("http://localhost:3002");
+const socket = socketIOClient("http://localhost:3000");
 
 const AdminDashboard = () => {
   const [userChats, setUserChats] = useState({});
-  const [selectedUser, setSelectedUser] = useState(null); // Initially, no user is selected
+  const [selectedUser, setSelectedUser] = useState(null); 
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [file, setFile] = useState(null);
 
-  const adminName = "Admin"; // Admin name is fixed
-
-  // Load users and chat data
+  const adminName = "Admin"; 
+  
   useEffect(() => {
     socket.emit("getAllUsersWithLastChat");
 
@@ -242,3 +241,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+

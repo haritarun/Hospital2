@@ -613,10 +613,8 @@ app.post('/deleteItem',async(req,res)=>{
 })
 
 
-
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id); 
-
 
   socket.on("userLogin", async (username) => {
     activeUsers.set(socket.id, username);
@@ -649,7 +647,6 @@ io.on("connection", (socket) => {
     socket.emit("chatHistory", messages);
   });
 
-
   socket.on("getAllUsersWithLastChat", async () => {
     const allUsers = await Chat.aggregate([
       { $sort: { timestamp: -1 } },
@@ -674,8 +671,6 @@ io.on("connection", (socket) => {
   
     socket.emit("allUsersWithLastChat", formattedUsers);
   });
-  
-
 
   socket.on("newMessage", async (data) => {
     // Force the sender to be "Admin" if the admin sends the message
@@ -702,13 +697,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.listen(3000, () => {
+server.listen(3000, () => {
    console.log("Server is running on port 3000");
 });
-
-
-server.listen(3002, () => {
-  console.log("Server running on port3002");
-});
-
 

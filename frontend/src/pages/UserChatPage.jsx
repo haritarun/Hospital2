@@ -7,7 +7,7 @@ import Header from '../HomePage/Header'
 import AOS from "aos";
 import "aos/dist/aos.css";
 const DOMAIN = import.meta.env.VITE_SOCKET_DOMAIN
-const socket = socketIOClient("http://localhost:3002");
+const socket = socketIOClient("http://localhost:3000");
 
 const UserChatPage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -233,5 +233,3 @@ const UserChatPage = () => {
 };
 
 export default UserChatPage;
-
-

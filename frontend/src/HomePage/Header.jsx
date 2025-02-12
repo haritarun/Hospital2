@@ -10,6 +10,9 @@ import Location from "./Location";
 import axios from "axios";
 import { RiArrowDropUpLine } from "react-icons/ri";
 
+const DOMAIN = import.meta.env.VITE_SOCKET_DOMAIN
+
+
 const Navbar = () => {
   const navigate = useNavigate()
   
@@ -47,7 +50,7 @@ const Navbar = () => {
   const fetchedList= async ()=>{
     const email = localStorage.getItem("email")
     try{
-      const response = await axios.get(`http://localhost:3000/getLocation?email=${email}`)
+      const response = await axios.get(`${DOMAIN}/getLocation?email=${email}`)
       if(response.status===200){
         
         setArea(response.data[0].area)

@@ -14,7 +14,9 @@ const Admin = require("./models/Admin");
 const Tablets=require("./models/Tablets");
 const Cart = require('./models/Cart')
 const Address = require('./models/Address')
+const Location = require('./models/CurrentLocation')
 require("dotenv").config()
+
 
 const app = express();
 app.use(express.urlencoded({ extended: true })); 
@@ -22,6 +24,7 @@ app.use(express.json());
 app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
+
 
 mongoose.connect(process.env.MONGO_URI);
 
@@ -610,6 +613,40 @@ app.post('/deleteItem',async(req,res)=>{
   user.array = user.array.filter(eachItem=>eachItem.title!==title)
   await user.save()
   res.status(200).json({message :'success'})
+})
+
+app.post('/currentLocation',async(req,res)=>{
+  const {email,area,city,state,pincode} = req.body
+  console.log(email,area,city,state,pincode)
+  const user = await Location.findOne({email})
+  if(!user){
+    const data = new Location({
+      email,
+      location:[
+        {
+          area:area,
+          city:city,
+          state:state,
+          pincode,pincode
+        }
+      ]
+    })
+    await data.save()
+    return res.status(200).json({message:'successfull'})
+  }
+
+})
+
+app.get('/getLocation',async(req,res)=>{
+  const {email}=req.query
+  const user = await Location.findOne({email})
+  if(user){
+    const data = user.location
+    res.status(200).json(data)
+  }
+  else{
+    res.status(400).json({message:'something went wrong'})
+  }
 })
 
 

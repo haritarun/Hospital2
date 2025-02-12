@@ -4,23 +4,68 @@ import "aos/dist/aos.css";
 import { Link ,useNavigate} from "react-router-dom";
 import { FaAngleDoubleDown, FaAngleDoubleUp, FaBars, FaTimes } from "react-icons/fa";
 import Profile from "./Profile";
+import { GrLocation } from "react-icons/gr";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import Location from "./Location";
+import axios from "axios";
+import { RiArrowDropUpLine } from "react-icons/ri";
 
 const Navbar = () => {
   const navigate = useNavigate()
   
+  const [area,setArea]=useState(null)
+  const [city,setCity]=useState(null)
+  const [state,setState]=useState(null)
+  const [pincode,setPincode]=useState(null)
   const [isEmail,setEmail]=useState(!(localStorage.getItem("email")==null))
   
  
+  useEffect(() => {
+    console.log("Updated Area:", area);
+  }, [area]); 
+  
+  useEffect(() => {
+    console.log("Updated City:", city);
+  }, [city]); 
+  
+  useEffect(() => {
+    console.log("Updated State:", state);
+  }, [state]); 
+  
+  useEffect(() => {
+    console.log("Updated Pincode:", pincode);
+  }, [pincode]); 
+  
   useEffect(() => {
     AOS.init({
       duration: 1500,
       once: true,
     });
+    fetchedList();
   }, []);
+
+  const fetchedList= async ()=>{
+    const email = localStorage.getItem("email")
+    try{
+      const response = await axios.get(`http://localhost:3000/getLocation?email=${email}`)
+      if(response.status===200){
+        
+        setArea(response.data[0].area)
+        setCity(response.data[0].city)
+        setState(response.data[0].state)
+        setPincode(response.data[0].pincode)
+        
+      }
+    }
+    catch(e){
+      console.log("something went wrong",e)
+    }
+  }
 
   const [shopOpen, setShopOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLocation,setLocation] = useState(false)
 
   const handleOutsideClick = (e) => {
     if (!e.target.closest(".dropdown-menu")) {
@@ -41,18 +86,50 @@ const Navbar = () => {
 
   }
 
+  
+
   return (
     <nav className="sticky top-0 w-full bg-white shadow-lg z-50">
       <div className="flex items-center justify-between px-5 py-4 md:px-10">
         
-        <Link to="/" className="text-xl font-semibold text-gray-500 hover:text-gray-900 transition">
-          Logo
+        <Link to="/" className="flex items-center text-xl font-semibold text-gray-500 ">
+          <p className="hover:text-gray-900  transition">Logo</p>
+          <div className="hidden md:inline-flex ml-5 hover:text-gray " onClick={()=>setLocation(!isLocation)}>
+              <GrLocation size={20} color="green " className="mt-1"/>
+              {
+                area!==null ? 
+                <p className="text-[15px] text-green-700">
+                   {
+                    area 
+                   }
+                   <span className="ml-1">{pincode}</span>
+                </p>
+                :
+                <p className="text-sm text-green-700">Add Location</p>
+              }
+              {
+                isLocation ?
+                <RiArrowDropUpLine size={30} color="green"/>
+                :
+                <RiArrowDropDownLine size={30} className=""/>
+              }
+              
+          </div>
+          {
+            isLocation && (
+              <div className="absolute left-20 mt-40 w-fit bg-white border rounded-md shadow-lg">
+                  <Location />
+              </div>
+            )
+          }
         </Link>
-
+        
+        
         <div className="md:hidden">
           <button onClick={() => setMenuOpen(!menuOpen)} className="text-gray-600 focus:outline-none">
             {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
+          
         </div>
 
        

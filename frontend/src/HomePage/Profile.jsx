@@ -4,7 +4,7 @@ import { CgProfile } from "react-icons/cg";
 
 
 const Profile = () => {
-    
+    const navigate = useNavigate()
     const [showMenu, setShowMenu] = useState(false);
     const handleLogout=()=>{
         localStorage.clear()

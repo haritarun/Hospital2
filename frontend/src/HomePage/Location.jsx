@@ -3,6 +3,7 @@ import { MdOutlineMyLocation } from "react-icons/md";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import axios from 'axios';
 import {Link} from 'react-router-dom'
+const DOMAIN = import.meta.env.VITE_SOCKET_DOMAIN
 
 
 const Location = () => {
@@ -42,7 +43,7 @@ const Location = () => {
     
                 
                 const email = localStorage.getItem("email");
-                const locationResponse = await axios.post("http://localhost:3000/currentLocation", {
+                const locationResponse = await axios.post(`${DOMAIN}/currentLocation`, {
                     email,
                     area,
                     city,
